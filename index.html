@@ -60,7 +60,6 @@ function add() {
     }
 
     if (edit == -1) {
-
         records.push({
             ctr: ctr,
             item: item,
@@ -68,12 +67,9 @@ function add() {
             price: price,
             total: quantity * price
         });
-
         document.getElementById("message").innerHTML =
             "Record " + ctr + " was added successfully.";
-
         ctr++;
-
     } else {
 
         records[edit].item = item;
@@ -83,10 +79,8 @@ function add() {
 
         document.getElementById("message").innerHTML =
             "Record was updated successfully.";
-
         edit = -1;
     }
-
     clear();
     display();
 }
@@ -99,7 +93,6 @@ function display() {
     let grandTotal = 0;
 
     for (let i = 0; i < records.length; i++) {
-
         grandTotal += records[i].total;
 
         list.innerHTML +=
@@ -121,7 +114,6 @@ function display() {
 }
 
 function update(i) {
-
     edit = i;
 
     document.getElementById("item").value =
@@ -138,11 +130,8 @@ function update(i) {
 }
 
 function remove(i) {
-
     let id = records[i].ctr;
-
     records.splice(i, 1);
-
     document.getElementById("message").innerHTML =
         "Record " + id + " was deleted successfully.";
 
@@ -150,11 +139,8 @@ function remove(i) {
 }
 
 function cancel() {
-
     edit = -1;
-
     clear();
-
     document.getElementById("message").innerHTML =
         "Update was cancelled.";
 }
