@@ -15,15 +15,13 @@
 
         h1 {
             text-align: center;
-            margin-bottom: 25px;
         }
 
-        .search-area {
-            max-width: 900px;
-            margin: auto;
+        .search {
+            max-width: 600px;
+            margin: 25px auto;
             display: flex;
             gap: 10px;
-            margin-bottom: 30px;
         }
 
         input, select {
@@ -38,7 +36,6 @@
         }
 
         select {
-            width: 180px;
             background: white;
         }
 
@@ -52,31 +49,27 @@
 
         .product {
             background: white;
-            padding: 20px;
+            padding: 25px;
             border: 1px solid #ddd;
             border-radius: 8px;
+            text-align: center;
         }
 
         .product h3 {
-            margin: 0 0 10px;
+            margin-bottom: 10px;
         }
 
         .product p {
-            margin: 5px 0;
             color: #666;
         }
 
         @media (max-width: 700px) {
-            .search-area {
-                flex-direction: column;
-            }
-
-            select {
-                width: 100%;
-            }
-
             .products {
                 grid-template-columns: 1fr;
+            }
+
+            .search {
+                flex-direction: column;
             }
         }
     </style>
@@ -84,86 +77,65 @@
 
 <body>
 
-    <h1>Product Search</h1>
+    <h1>Products</h1>
 
-    <div class="search-area">
+    <div class="search">
         <input type="text" id="search" placeholder="Search product...">
 
-        <select id="category">
-            <option value="all">All Categories</option>
-            <option value="clothes">Clothes</option>
-            <option value="shoes">Shoes</option>
-            <option value="bags">Bags</option>
-            <option value="accessories">Accessories</option>
-            <option value="beauty">Beauty</option>
+        <select id="filter">
+            <option value="all">All</option>
+            <option value="soap">Soap</option>
+            <option value="bag">Bag</option>
+            <option value="perfume">Perfume</option>
         </select>
     </div>
 
     <div class="products">
 
-        <div class="product" data-name="Soriko Soap" data-category="beauty">
+        <div class="product" data-name="Soriko Soap" data-category="soap">
             <h3>Soriko Soap</h3>
-            <p>Category: Beauty</p>
-            <p>Price: ₱120</p>
+            <p>Soap</p>
+            <p>₱120</p>
         </div>
 
-        <div class="product" data-name="Emilio Bag" data-category="bags">
+        <div class="product" data-name="Emilio Bag" data-category="bag">
             <h3>Emilio Bag</h3>
-            <p>Category: Bags</p>
-            <p>Price: ₱850</p>
+            <p>Bag</p>
+            <p>₱850</p>
         </div>
 
-        <div class="product" data-name="Classic Shirt" data-category="clothes">
-            <h3>Classic Shirt</h3>
-            <p>Category: Clothes</p>
-            <p>Price: ₱450</p>
-        </div>
-
-        <div class="product" data-name="Casual Shoes" data-category="shoes">
-            <h3>Casual Shoes</h3>
-            <p>Category: Shoes</p>
-            <p>Price: ₱1,200</p>
-        </div>
-
-        <div class="product" data-name="Gold Necklace" data-category="accessories">
-            <h3>Gold Necklace</h3>
-            <p>Category: Accessories</p>
-            <p>Price: ₱650</p>
-        </div>
-
-        <div class="product" data-name="Summer Dress" data-category="clothes">
-            <h3>Summer Dress</h3>
-            <p>Category: Clothes</p>
-            <p>Price: ₱750</p>
+        <div class="product" data-name="Rose Perfume" data-category="perfume">
+            <h3>Rose Perfume</h3>
+            <p>Perfume</p>
+            <p>₱650</p>
         </div>
 
     </div>
 
     <script>
         const search = document.getElementById("search");
-        const category = document.getElementById("category");
+        const filter = document.getElementById("filter");
         const products = document.querySelectorAll(".product");
 
         function filterProducts() {
-            const searchText = search.value.toLowerCase();
-            const selectedCategory = category.value;
+            const text = search.value.toLowerCase();
+            const category = filter.value;
 
             products.forEach(product => {
                 const name = product.dataset.name.toLowerCase();
                 const productCategory = product.dataset.category;
 
-                const matchesSearch = name.includes(searchText);
-                const matchesCategory =
-                    selectedCategory === "all" ||
-                    productCategory === selectedCategory;
+                const searchMatch = name.includes(text);
+                const categoryMatch =
+                    category === "all" || productCategory === category;
 
                 product.style.display =
-                    matchesSearch && matchesCategory ? "block" : "none";
+                    searchMatch && categoryMatch ? "block" : "none";
             });
         }
 
         search.addEventListener("input", filterProducts);
-        category.addEventListener("change", filterProducts);
+        filter.addEventListener("change", filterProducts);
     </script>
 
 </body>
