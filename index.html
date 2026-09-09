@@ -3,88 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Love Luxe Categories</title>
+    <title>Love Luxe - Product Search</title>
 
     <style>
         body {
             font-family: Arial, sans-serif;
             background: #f8f6f3;
             margin: 0;
-            padding: 40px;
+            padding: 30px;
         }
 
         h1 {
             text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .search-area {
+            max-width: 900px;
+            margin: auto;
+            display: flex;
+            gap: 10px;
             margin-bottom: 30px;
         }
 
-        .categories {
+        input, select {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        input {
+            flex: 1;
+        }
+
+        select {
+            width: 180px;
+            background: white;
+        }
+
+        .products {
+            max-width: 900px;
+            margin: auto;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 20px;
-            max-width: 900px;
-            margin: auto;
         }
 
-        .category {
+        .product {
             background: white;
+            padding: 20px;
             border: 1px solid #ddd;
-            border-radius: 10px;
-            padding: 30px;
-            text-align: center;
-            cursor: pointer;
-            font-size: 18px;
+            border-radius: 8px;
         }
 
-        .category:hover {
-            background: #f0f0f0;
+        .product h3 {
+            margin: 0 0 10px;
         }
 
-        .icon {
-            font-size: 30px;
-            color: black;
-            margin-bottom: 10px;
+        .product p {
+            margin: 5px 0;
+            color: #666;
+        }
+
+        @media (max-width: 700px) {
+            .search-area {
+                flex-direction: column;
+            }
+
+            select {
+                width: 100%;
+            }
+
+            .products {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <h1>Categories</h1>
+    <h1>Product Search</h1>
 
-    <div class="categories">
+    <div class="search-area">
+        <input type="text" id="search" placeholder="Search product...">
 
-        <button class="category">
-            <div class="icon">♧</div>
-            Clothes
-        </button>
+        <select id="category">
+            <option value="all">All Categories</option>
+            <option value="clothes">Clothes</option>
+            <option value="shoes">Shoes</option>
+            <option value="bags">Bags</option>
+            <option value="accessories">Accessories</option>
+            <option value="beauty">Beauty</option>
+        </select>
+    </div>
 
-        <button class="category">
-            <div class="icon">⌁</div>
-            Shoes
-        </button>
+    <div class="products">
 
-        <button class="category">
-            <div class="icon">□</div>
-            Bags
-        </button>
+        <div class="product" data-name="Soriko Soap" data-category="beauty">
+            <h3>Soriko Soap</h3>
+            <p>Category: Beauty</p>
+            <p>Price: ₱120</p>
+        </div>
 
-        <button class="category">
-            <div class="icon">◇</div>
-            Accessories
-        </button>
+        <div class="product" data-name="Emilio Bag" data-category="bags">
+            <h3>Emilio Bag</h3>
+            <p>Category: Bags</p>
+            <p>Price: ₱850</p>
+        </div>
 
-        <button class="category">
-            <div class="icon">○</div>
-            Beauty
-        </button>
+        <div class="product" data-name="Classic Shirt" data-category="clothes">
+            <h3>Classic Shirt</h3>
+            <p>Category: Clothes</p>
+            <p>Price: ₱450</p>
+        </div>
 
-        <button class="category">
-            <div class="icon">•••</div>
-            Others
-        </button>
+        <div class="product" data-name="Casual Shoes" data-category="shoes">
+            <h3>Casual Shoes</h3>
+            <p>Category: Shoes</p>
+            <p>Price: ₱1,200</p>
+        </div>
+
+        <div class="product" data-name="Gold Necklace" data-category="accessories">
+            <h3>Gold Necklace</h3>
+            <p>Category: Accessories</p>
+            <p>Price: ₱650</p>
+        </div>
+
+        <div class="product" data-name="Summer Dress" data-category="clothes">
+            <h3>Summer Dress</h3>
+            <p>Category: Clothes</p>
+            <p>Price: ₱750</p>
+        </div>
 
     </div>
+
+    <script>
+        const search = document.getElementById("search");
+        const category = document.getElementById("category");
+        const products = document.querySelectorAll(".product");
+
+        function filterProducts() {
+            const searchText = search.value.toLowerCase();
+            const selectedCategory = category.value;
+
+            products.forEach(product => {
+                const name = product.dataset.name.toLowerCase();
+                const productCategory = product.dataset.category;
+
+                const matchesSearch = name.includes(searchText);
+                const matchesCategory =
+                    selectedCategory === "all" ||
+                    productCategory === selectedCategory;
+
+                product.style.display =
+                    matchesSearch && matchesCategory ? "block" : "none";
+            });
+        }
+
+        search.addEventListener("input", filterProducts);
+        category.addEventListener("change", filterProducts);
+    </script>
 
 </body>
 </html>
