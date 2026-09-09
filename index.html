@@ -1,158 +1,156 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Machine Problem 6</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category Management</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .category-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .add-btn {
+            background: #222;
+            color: white;
+        }
+
+        .category-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .category {
+            border: 1px solid #ddd;
+            padding: 18px;
+            border-radius: 8px;
+        }
+
+        .category h3 {
+            margin-top: 0;
+        }
+
+        .products {
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .edit {
+            background: #ddd;
+        }
+
+        .delete {
+            background: #eee;
+        }
+    </style>
 </head>
+
 <body>
 
-<h2>Machine Problem 6</h2>
+<div class="container">
 
-<input id="item" placeholder="Item Name"><br><br>
-<input id="quantity" type="number" placeholder="Quantity"><br><br>
-<input id="price" type="number" placeholder="Price"><br><br>
+    <h1>Category Management</h1>
 
-<button onclick="add()">Add</button>
-<button onclick="cancel()">Cancel Update</button>
+    <!-- Add Category -->
+    <div class="category-form">
+        <input type="text" placeholder="Enter category name">
+        <button class="add-btn">Add Category</button>
+    </div>
 
-<p id="message"></p>
+    <h2>Product Categories</h2>
 
-<table border="1">
-    <tr>
-        <th>CTR</th>
-        <th>Item</th>
-        <th>Quantity</th>
-        <th>Price</th>
-        <th>Total Price</th>
-        <th>Actions</th>
-    </tr>
+    <div class="category-list">
 
-    <tbody id="list"></tbody>
+        <!-- Clothes -->
+        <div class="category">
+            <h3>Clothes</h3>
+            <div class="products">
+                Crop Top<br>
+                Oversized Shirt<br>
+                Denim Pants
+            </div>
 
-    <tr>
-        <td colspan="4">Grand Total</td>
-        <td id="grandTotal">0</td>
-        <td></td>
-    </tr>
-</table>
+            <button class="edit">Edit</button>
+            <button class="delete">Delete</button>
+        </div>
 
-<script>
+        <!-- Accessories -->
+        <div class="category">
+            <h3>Accessories</h3>
+            <div class="products">
+                Necklace<br>
+                Bracelet<br>
+                Hair Clip
+            </div>
 
-let records = [];
-let ctr = 10001;
-let edit = -1;
+            <button class="edit">Edit</button>
+            <button class="delete">Delete</button>
+        </div>
 
-function add() {
+        <!-- Perfumes -->
+        <div class="category">
+            <h3>Perfumes</h3>
+            <div class="products">
+                Rose Perfume<br>
+                Vanilla Perfume
+            </div>
 
-    let item = document.getElementById("item").value;
-    let quantity = Number(document.getElementById("quantity").value);
-    let price = Number(document.getElementById("price").value);
+            <button class="edit">Edit</button>
+            <button class="delete">Delete</button>
+        </div>
 
-    if (quantity <= 0) {
-        document.getElementById("message").innerHTML =
-            "Quantity must be greater than zero.";
-        return;
-    }
+        <!-- Makeup -->
+        <div class="category">
+            <h3>Makeup</h3>
+            <div class="products">
+                Lipstick<br>
+                Lip Tint<br>
+                Blush
+            </div>
 
-    if (price <= 0) {
-        document.getElementById("message").innerHTML =
-            "Price must be greater than zero.";
-        return;
-    }
+            <button class="edit">Edit</button>
+            <button class="delete">Delete</button>
+        </div>
 
-    if (edit == -1) {
-        records.push({
-            ctr: ctr,
-            item: item,
-            quantity: quantity,
-            price: price,
-            total: quantity * price
-        });
-        document.getElementById("message").innerHTML =
-            "Record " + ctr + " was added successfully.";
-        ctr++;
-    } else {
+    </div>
 
-        records[edit].item = item;
-        records[edit].quantity = quantity;
-        records[edit].price = price;
-        records[edit].total = quantity * price;
-
-        document.getElementById("message").innerHTML =
-            "Record was updated successfully.";
-        edit = -1;
-    }
-    clear();
-    display();
-}
-
-function display() {
-
-    let list = document.getElementById("list");
-    list.innerHTML = "";
-
-    let grandTotal = 0;
-
-    for (let i = 0; i < records.length; i++) {
-        grandTotal += records[i].total;
-
-        list.innerHTML +=
-            "<tr>" +
-            "<td>" + records[i].ctr + "</td>" +
-            "<td>" + records[i].item + "</td>" +
-            "<td>" + records[i].quantity + "</td>" +
-            "<td>" + records[i].price + "</td>" +
-            "<td>" + records[i].total + "</td>" +
-            "<td>" +
-            "<button onclick='update(" + i + ")'>Update</button>" +
-            "<button onclick='remove(" + i + ")'>Delete</button>" +
-            "</td>" +
-            "</tr>";
-    }
-
-    document.getElementById("grandTotal").innerHTML =
-        grandTotal;
-}
-
-function update(i) {
-    edit = i;
-
-    document.getElementById("item").value =
-        records[i].item;
-
-    document.getElementById("quantity").value =
-        records[i].quantity;
-
-    document.getElementById("price").value =
-        records[i].price;
-
-    document.getElementById("message").innerHTML =
-        "You are updating record " + records[i].ctr + ".";
-}
-
-function remove(i) {
-    let id = records[i].ctr;
-    records.splice(i, 1);
-    document.getElementById("message").innerHTML =
-        "Record " + id + " was deleted successfully.";
-
-    display();
-}
-
-function cancel() {
-    edit = -1;
-    clear();
-    document.getElementById("message").innerHTML =
-        "Update was cancelled.";
-}
-
-function clear() {
-
-    document.getElementById("item").value = "";
-    document.getElementById("quantity").value = "";
-    document.getElementById("price").value = "";
-}
-
-</script>
+</div>
 
 </body>
 </html>
